@@ -1,4 +1,4 @@
-package com.betulantep.foody
+package com.betulantep.foody.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,8 +7,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.betulantep.foody.R
 import com.betulantep.foody.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -27,7 +30,5 @@ class MainActivity : AppCompatActivity() {
         )
         binding.bottomNavView.setupWithNavController(navController)
         setupActionBarWithNavController(navController,appBarConfiguration)
-
-
     }
 }

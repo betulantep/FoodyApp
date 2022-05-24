@@ -1,4 +1,4 @@
-package com.betulantep.foody
+package com.betulantep.foody.data.network
 
 import com.betulantep.foody.models.FoodRecipe
 import retrofit2.Response
