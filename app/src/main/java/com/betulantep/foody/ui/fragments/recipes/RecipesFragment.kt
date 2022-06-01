@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.betulantep.foody.R
 import com.betulantep.foody.adapters.RecipesAdapter
@@ -27,16 +28,17 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes) {
     private val recipeViewModel : RecipesViewModel by viewModels()
     private val mAdapter by lazy { RecipesAdapter() }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         binding.mainViewModel = mainViewModel
         setupRecyclerView()
         readDatabase()
+
+        binding.fabRecipe.setOnClickListener {
+            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+        }
     }
 
     private fun setupRecyclerView() {
