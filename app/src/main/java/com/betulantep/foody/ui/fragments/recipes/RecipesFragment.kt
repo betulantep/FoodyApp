@@ -5,8 +5,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.SearchView
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -32,6 +33,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), SearchView.OnQueryT
     private val recipeViewModel: RecipesViewModel by viewModels()
     private val mAdapter by lazy { RecipesAdapter() }
     private lateinit var networkListener: NetworkListener
+    private lateinit var searchView: SearchView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,15 +56,19 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), SearchView.OnQueryT
 
     //Start Search Menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.recipes_menu,menu)
+        inflater.inflate(R.menu.recipes_menu, menu)
 
         val search = menu.findItem(R.id.search_menu)
-        val searchView = search.actionView as? SearchView
-        searchView?.isSubmitButtonEnabled = true
-        searchView?.setOnQueryTextListener(this)
+        searchView = (search.actionView as? SearchView)!!
+        searchView.isSubmitButtonEnabled = true
+        searchView.setOnQueryTextListener(this)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
+        if(query != null){
+            searchApiData(query)
+        }
+        searchView.clearFocus()
         return true
     }
 
@@ -143,6 +149,29 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), SearchView.OnQueryT
                 is NetworkResult.Loading -> {
                     showShimmerEffect()
                 }
+            }
+        })
+    }
+
+    private fun searchApiData(searchQuery: String) {
+        showShimmerEffect()
+        mainViewModel.searchRecipes(recipeViewModel.applySearchQueries(searchQuery))
+        mainViewModel.searchedRecipesResponse.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    hideShimmerEffect()
+                    response.data?.let { mAdapter.setData(it) }
+                }
+                is NetworkResult.Error -> {
+                    hideShimmerEffect()
+                    loadDataFromCache()
+                    Toast.makeText(
+                        requireContext(),
+                        response.message.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is NetworkResult.Loading -> { showShimmerEffect() }
             }
         })
     }
