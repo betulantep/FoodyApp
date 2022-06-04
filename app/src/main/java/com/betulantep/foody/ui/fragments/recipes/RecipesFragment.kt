@@ -1,6 +1,6 @@
 package com.betulantep.foody.ui.fragments.recipes
 
-import android.os.Bundle
+import  android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -43,9 +43,27 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), SearchView.OnQueryT
         setHasOptionsMenu(true)
 
         setupRecyclerView()
-        backOnlineListener()
-        networkListenerRecipes()
+        observe()
         binding.fabRecipe.setOnClickListener { fabRecipeClicked() }
+    }
+
+    private fun observe() {
+        //Back online listener
+        recipeViewModel.readBackOnline.observe(viewLifecycleOwner, Observer {
+            recipeViewModel.backOnline = it
+        })
+
+        //network listener
+        networkListener = NetworkListener()
+        lifecycleScope.launchWhenStarted {
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    Log.d("NetworkListener", status.toString())
+                    recipeViewModel.networkStatus = status
+                    recipeViewModel.showNetworkStatus()
+                    readDatabase()
+                }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -82,25 +100,6 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), SearchView.OnQueryT
             findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
         } else {
             recipeViewModel.showNetworkStatus()
-        }
-    }
-
-    private fun backOnlineListener() {
-        recipeViewModel.readBackOnline.observe(viewLifecycleOwner, Observer {
-            recipeViewModel.backOnline = it
-        })
-    }
-
-    private fun networkListenerRecipes() {
-        networkListener = NetworkListener()
-        lifecycleScope.launchWhenStarted {
-            networkListener.checkNetworkAvailability(requireContext())
-                .collect { status ->
-                    Log.d("NetworkListener", status.toString())
-                    recipeViewModel.networkStatus = status
-                    recipeViewModel.showNetworkStatus()
-                    readDatabase()
-                }
         }
     }
 

@@ -5,13 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
+import com.betulantep.foody.R
 import com.betulantep.foody.databinding.RecipesBottomSheetBinding
 import com.betulantep.foody.util.Constants.Companion.DEFAULT_DIET_TYPE
 import com.betulantep.foody.util.Constants.Companion.DEFAULT_MEAL_TYPE
+import com.betulantep.foody.util.viewBinding
 import com.betulantep.foody.viewmodels.RecipesViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
@@ -19,9 +22,8 @@ import com.google.android.material.chip.ChipGroup
 
 
 class RecipesBottomSheet() : BottomSheetDialogFragment() {
+    private val binding by viewBinding(RecipesBottomSheetBinding::inflate)
     private lateinit var recipesViewModel: RecipesViewModel
-    private var _binding: RecipesBottomSheetBinding? = null
-    private val binding get() = _binding!!
 
     private var mealTypeChip = DEFAULT_MEAL_TYPE
     private var mealTypeChipId = 0
@@ -32,12 +34,10 @@ class RecipesBottomSheet() : BottomSheetDialogFragment() {
         recipesViewModel = ViewModelProvider(requireActivity())[RecipesViewModel::class.java]
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = RecipesBottomSheetBinding.inflate(inflater, container, false)
 
         observeRecipesViewModel()
 
@@ -93,9 +93,5 @@ class RecipesBottomSheet() : BottomSheetDialogFragment() {
         findNavController().navigate(action)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
 }
