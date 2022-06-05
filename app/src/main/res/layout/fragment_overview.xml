@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ui.fragments.overview.OverviewFragment">
 
 
@@ -33,10 +34,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="12dp"
+        android:text="100"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:text="100"
         app:layout_constraintBottom_toBottomOf="@+id/ivMain"
         app:layout_constraintEnd_toEndOf="@+id/viewGradientOverlay" />
 
@@ -45,20 +46,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_clock"
-        app:tint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/tvTime"
         app:layout_constraintEnd_toEndOf="@+id/tvTime"
-        app:layout_constraintStart_toStartOf="@+id/tvTime" />
+        app:layout_constraintStart_toStartOf="@+id/tvTime"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/tvLikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
+        android:text="100"
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:text="100"
         app:layout_constraintBottom_toBottomOf="@+id/tvTime"
         app:layout_constraintEnd_toStartOf="@+id/tvTime" />
 
@@ -67,10 +68,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_heart"
-        app:tint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/tvLikes"
         app:layout_constraintEnd_toEndOf="@+id/tvLikes"
-        app:layout_constraintStart_toStartOf="@+id/tvLikes" />
+        app:layout_constraintStart_toStartOf="@+id/tvLikes"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -79,11 +80,11 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="12dp"
+        android:fontFamily="@font/courgette"
         android:text="Title"
+        android:textColor="@color/darkGray"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="@color/darkGray"
-        android:fontFamily="@font/courgette"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivMain" />
@@ -93,10 +94,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        app:tint="@color/darkGray"
         android:src="@drawable/ic_checkmark"
         app:layout_constraintStart_toStartOf="@+id/tvTitle"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:tint="@color/darkGray" />
 
     <TextView
         android:id="@+id/tvCheckVegetarian"
@@ -113,10 +114,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        app:tint="@color/darkGray"
         android:src="@drawable/ic_checkmark"
         app:layout_constraintStart_toStartOf="@+id/ivCheckVegetarian"
-        app:layout_constraintTop_toBottomOf="@+id/ivCheckVegetarian" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCheckVegetarian"
+        app:tint="@color/darkGray" />
 
     <TextView
         android:id="@+id/tvCheckVegan"
@@ -224,7 +225,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvSummary"

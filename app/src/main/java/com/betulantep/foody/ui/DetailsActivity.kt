@@ -12,6 +12,7 @@ import com.betulantep.foody.databinding.ActivityDetailsBinding
 import com.betulantep.foody.ui.fragments.ingredients.IngredientsFragment
 import com.betulantep.foody.ui.fragments.instructions.InstructionsFragment
 import com.betulantep.foody.ui.fragments.overview.OverviewFragment
+import com.betulantep.foody.util.Constants.Companion.RECIPE_BUNDLE_KEY
 import com.betulantep.foody.util.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +40,7 @@ class DetailsActivity : AppCompatActivity() {
         titles.add("Instructions")
 
         val resultBundle = Bundle()
-        resultBundle.putParcelable("recipeBundle", args.result)
+        resultBundle.putParcelable(RECIPE_BUNDLE_KEY, args.result)
         val pagerAdapter = PagerAdapter(resultBundle,titles,fragments,this)
         binding.viewPager2.adapter = pagerAdapter
 

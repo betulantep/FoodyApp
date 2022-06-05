@@ -13,6 +13,7 @@ import com.betulantep.foody.R
 import com.betulantep.foody.databinding.FragmentOverviewBinding
 import com.betulantep.foody.models.Result
 import com.betulantep.foody.ui.DetailsActivityArgs
+import com.betulantep.foody.util.Constants.Companion.RECIPE_BUNDLE_KEY
 import com.betulantep.foody.util.viewBinding
 import org.jsoup.Jsoup
 
@@ -24,7 +25,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         super.onViewCreated(view, savedInstanceState)
 
         val args = arguments
-        val myBundle: Result? = args?.getParcelable("recipeBundle")
+        val myBundle: Result? = args?.getParcelable(RECIPE_BUNDLE_KEY)
 
         myBundle?.let {
             binding.apply {
