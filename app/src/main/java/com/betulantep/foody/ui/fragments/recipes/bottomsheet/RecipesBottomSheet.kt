@@ -91,6 +91,8 @@ class RecipesBottomSheet() : BottomSheetDialogFragment() {
         )
         val action = RecipesBottomSheetDirections.actionRecipesBottomSheetToRecipesFragment(true)
         findNavController().navigate(action)
+        Log.d("Main Course Gluten Free", mealTypeChip)
+        Log.d("Main Course Gluten Free Id", mealTypeChipId.toString())
     }
 
 

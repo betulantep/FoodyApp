@@ -14,7 +14,9 @@ import com.betulantep.foody.ui.fragments.instructions.InstructionsFragment
 import com.betulantep.foody.ui.fragments.overview.OverviewFragment
 import com.betulantep.foody.util.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
     private val binding by viewBinding(ActivityDetailsBinding::inflate)
     private val args by navArgs<DetailsActivityArgs>()

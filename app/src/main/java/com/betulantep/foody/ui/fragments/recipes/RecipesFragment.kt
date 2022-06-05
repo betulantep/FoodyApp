@@ -1,11 +1,8 @@
 package com.betulantep.foody.ui.fragments.recipes
 
-import  android.os.Bundle
+import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
-import android.view.inputmethod.InputMethodManager
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -18,12 +15,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.betulantep.foody.R
 import com.betulantep.foody.adapters.RecipesAdapter
 import com.betulantep.foody.databinding.FragmentRecipesBinding
-import com.betulantep.foody.util.*
+import com.betulantep.foody.util.NetworkListener
+import com.betulantep.foody.util.NetworkResult
+import com.betulantep.foody.util.observeOnce
+import com.betulantep.foody.util.viewBinding
 import com.betulantep.foody.viewmodels.MainViewModel
 import com.betulantep.foody.viewmodels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class RecipesFragment : Fragment(R.layout.fragment_recipes), SearchView.OnQueryTextListener {
 
@@ -34,6 +36,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), SearchView.OnQueryT
     private val mAdapter by lazy { RecipesAdapter() }
     private lateinit var networkListener: NetworkListener
     private lateinit var searchView: SearchView
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
