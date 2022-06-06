@@ -36,7 +36,7 @@
 
     <style name="CustomTabLayoutStyle" parent="Widget.Design.TabLayout">
         <item name="background">@color/actionBarBackgroundColor</item>
-        <item name="tabIndicator">@color/white</item>
+        <item name="tabIndicatorColor">@color/white</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabSelectedTextColor">@color/white</item>
     </style>
