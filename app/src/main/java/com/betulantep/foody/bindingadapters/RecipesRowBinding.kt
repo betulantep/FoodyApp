@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import coil.load
 import com.betulantep.foody.R

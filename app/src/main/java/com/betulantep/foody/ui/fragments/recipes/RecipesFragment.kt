@@ -37,13 +37,19 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), SearchView.OnQueryT
     private lateinit var networkListener: NetworkListener
     private lateinit var searchView: SearchView
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
         binding.mainViewModel = mainViewModel
-
-        setHasOptionsMenu(true)
 
         setupRecyclerView()
         observe()

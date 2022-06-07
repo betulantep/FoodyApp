@@ -1,6 +1,7 @@
 package com.betulantep.foody.data
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
@@ -62,6 +63,8 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
             val selectedMealTypeId = preferences[PreferencesKey.selectedMealTypeId] ?: 0
             val selectedDietType = preferences[PreferencesKey.selectedDietType] ?: DEFAULT_DIET_TYPE
             val selectedDietTypeId = preferences[PreferencesKey.selectedDietTypeId] ?: 0
+            Log.d("Main Coursee", selectedMealType)
+            Log.d("Main Coursee", selectedDietTypeId.toString())
             MealAndDietType(
                 selectedMealType,
                 selectedMealTypeId,
