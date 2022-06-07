@@ -7,7 +7,8 @@ import android.net.NetworkCapabilities
 import androidx.lifecycle.*
 import com.betulantep.foody.R
 import com.betulantep.foody.data.Repository
-import com.betulantep.foody.data.database.RecipesEntity
+import com.betulantep.foody.data.database.entities.FavoriteEntity
+import com.betulantep.foody.data.database.entities.RecipesEntity
 import com.betulantep.foody.models.FoodRecipe
 import com.betulantep.foody.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,11 +24,24 @@ class MainViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
     /** ROOM DATABASE */
-    val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readDatabase().asLiveData()
+    val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readRecipes().asLiveData()
+    val readFavoriteRecipes: LiveData<List<FavoriteEntity>> = repository.local.readFavoriteRecipes().asLiveData()
 
     private fun insertRecipes(recipesEntity: RecipesEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertRecipes(recipesEntity)
+        }
+    private fun insertFavoriteRecipe(favoriteEntity: FavoriteEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.insertFavoriteRecipes(favoriteEntity)
+        }
+    private fun deleteFavoriteRecipe(favoriteEntity: FavoriteEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.deleteFavoriteRecipe(favoriteEntity)
+        }
+    private fun deleteAllFavoriteRecipes(favoriteEntity: FavoriteEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.deleteAllFavoriteRecipes()
         }
 
 
