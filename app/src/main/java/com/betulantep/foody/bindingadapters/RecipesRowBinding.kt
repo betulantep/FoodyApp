@@ -63,8 +63,8 @@ class RecipesRowBinding {
         @BindingAdapter("parseHtml")
         @JvmStatic
         fun parseHtml(textView: TextView, description: String?){
-            if(description != null){
-                val desc = Jsoup.parse(description).text()
+            description?.let{
+                val desc = Jsoup.parse(it).text()
                 textView.text = desc
             }
         }

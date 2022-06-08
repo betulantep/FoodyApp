@@ -2,7 +2,6 @@ package com.betulantep.foody.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -11,7 +10,6 @@ import com.betulantep.foody.databinding.IngredientsRowLayoutBinding
 import com.betulantep.foody.models.ExtendedIngredient
 import com.betulantep.foody.util.Constants.Companion.BASE_IMAGE_URL
 import com.betulantep.foody.util.RecipesDiffUtil
-import java.util.*
 
 class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.MyViewHolder>() {
     private var ingredientsList = emptyList<ExtendedIngredient>()
