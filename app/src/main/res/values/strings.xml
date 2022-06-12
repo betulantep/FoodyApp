@@ -35,7 +35,10 @@
     <string name="apply">Apply</string>
     <string name="no_internet_connection">No Internet Connection.</string>
     <string name="recipes_not_found">Recipes not found.</string>
+    <string name="food_joke_not_found">Food joke not found.</string>
+    <string name="api_key_limited">API Key Limited.</string>
     <string name="back_online">We\'re back online</string>
+    <string name="timeout">Timeout</string>
     <string name="search">Search</string>
     <string name="cheap">Cheap</string>
     <string name="healthy">Healthy</string>
@@ -45,4 +48,5 @@
     <string name="favorite_recipe_delete">Favorite Recipe Delete</string>
     <string name="items_selected">items selected</string>
     <string name="delete_all">Delete All</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
 </resources>

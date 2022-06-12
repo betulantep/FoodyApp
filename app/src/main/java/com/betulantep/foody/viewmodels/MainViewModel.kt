@@ -8,7 +8,9 @@ import androidx.lifecycle.*
 import com.betulantep.foody.R
 import com.betulantep.foody.data.Repository
 import com.betulantep.foody.data.database.entities.FavoriteEntity
+import com.betulantep.foody.data.database.entities.FoodJokeEntity
 import com.betulantep.foody.data.database.entities.RecipesEntity
+import com.betulantep.foody.models.FoodJoke
 import com.betulantep.foody.models.FoodRecipe
 import com.betulantep.foody.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,6 +29,7 @@ class MainViewModel @Inject constructor(
     val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readRecipes().asLiveData()
     val readFavoriteRecipes: LiveData<List<FavoriteEntity>> =
         repository.local.readFavoriteRecipes().asLiveData()
+    val readFoodJoke: LiveData<List<FoodJokeEntity>> = repository.local.readFoodJoke().asLiveData()
 
     private fun insertRecipes(recipesEntity: RecipesEntity) =
         viewModelScope.launch(Dispatchers.IO) {
@@ -36,6 +39,11 @@ class MainViewModel @Inject constructor(
     fun insertFavoriteRecipe(favoriteEntity: FavoriteEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertFavoriteRecipes(favoriteEntity)
+        }
+
+    fun insertFoodJoke(foodJokeEntity: FoodJokeEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.insertFoodJoke(foodJokeEntity)
         }
 
     fun deleteFavoriteRecipe(favoriteEntity: FavoriteEntity) =
@@ -52,6 +60,7 @@ class MainViewModel @Inject constructor(
     /** RETROFIT */
     var recipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
     var searchedRecipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
+    var foodJokeResponse: MutableLiveData<NetworkResult<FoodJoke>> = MutableLiveData()
 
     fun getRecipes(queries: Map<String, String>) = viewModelScope.launch {
         getRecipesSafeCall(queries)
@@ -61,6 +70,10 @@ class MainViewModel @Inject constructor(
         searchRecipesSafeCall(searchQuery)
     }
 
+    fun getFoodJoke(apiKey: String) = viewModelScope.launch {
+        getFoodJokeSafeCall(apiKey)
+    }
+
     private suspend fun getRecipesSafeCall(queries: Map<String, String>) {
         recipesResponse.value = NetworkResult.Loading()
         if (hasInternetConnection()) {
@@ -68,14 +81,13 @@ class MainViewModel @Inject constructor(
                 val response = repository.remote.getRecipes(queries)
                 recipesResponse.value = handleFoodRecipesResponse(response)
                 val foodRecipe = recipesResponse.value!!.data
-                if (foodRecipe != null) {
-                    offlineCacheRecipes(foodRecipe)
-                }
+                foodRecipe?.let { offlineCacheRecipes(it) }
             } catch (e: Exception) {
-                recipesResponse.value = NetworkResult.Error("Recipes not found.")
+                recipesResponse.value = NetworkResult.Error((R.string.recipes_not_found).toString())
             }
         } else {
-            recipesResponse.value = NetworkResult.Error("No Internet Connection")
+            recipesResponse.value =
+                NetworkResult.Error((R.string.no_internet_connection).toString())
         }
     }
 
@@ -95,21 +107,43 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private suspend fun getFoodJokeSafeCall(apiKey: String) {
+        foodJokeResponse.value = NetworkResult.Loading()
+        if (hasInternetConnection()) {
+            try {
+                val response = repository.remote.getFoodJoke(apiKey)
+                foodJokeResponse.value = handleFoodJokeResponse(response)
+                val foodJoke = foodJokeResponse.value!!.data
+                foodJoke?.let{ offlineCacheFoodJoke(it) }
+            } catch (e: Exception) {
+                foodJokeResponse.value =
+                    NetworkResult.Error((R.string.food_joke_not_found).toString())
+            }
+        } else {
+            foodJokeResponse.value =
+                NetworkResult.Error((R.string.no_internet_connection).toString())
+        }
+    }
+
     private fun offlineCacheRecipes(foodRecipe: FoodRecipe) {
         val recipesEntity = RecipesEntity(foodRecipe)
         insertRecipes(recipesEntity)
+    }
+    private fun offlineCacheFoodJoke(foodJoke: FoodJoke) {
+        val foodJokeEntity = FoodJokeEntity(foodJoke)
+        insertFoodJoke(foodJokeEntity)
     }
 
     private fun handleFoodRecipesResponse(response: Response<FoodRecipe>): NetworkResult<FoodRecipe> {
         when {
             response.message().toString().contains("timeout") -> {
-                return NetworkResult.Error("Timeout")
+                return NetworkResult.Error((R.string.timeout).toString())
             }
             response.code() == 402 -> {
-                return NetworkResult.Error("API Key Limited.")
+                return NetworkResult.Error((R.string.api_key_limited).toString())
             }
             response.body()!!.results.isNullOrEmpty() -> {
-                return NetworkResult.Error("Recipes not found.")
+                return NetworkResult.Error((R.string.recipes_not_found).toString())
             }
             response.isSuccessful -> {
                 val foodRecipes = response.body()
@@ -117,6 +151,24 @@ class MainViewModel @Inject constructor(
             }
             else -> {
                 return NetworkResult.Error(response.message())
+            }
+        }
+    }
+
+    private fun handleFoodJokeResponse(response: Response<FoodJoke>): NetworkResult<FoodJoke> {
+        return when {
+            response.message().toString().contains("timeout") -> {
+                NetworkResult.Error((R.string.timeout).toString())
+            }
+            response.code() == 402 -> {
+                NetworkResult.Error((R.string.api_key_limited).toString())
+            }
+            response.isSuccessful -> {
+                val foodJoke = response.body()
+                NetworkResult.Success(foodJoke!!)
+            }
+            else -> {
+                NetworkResult.Error(response.message())
             }
         }
     }
