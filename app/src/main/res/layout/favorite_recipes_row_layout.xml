@@ -10,7 +10,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/favoriteRecipeRowLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -29,6 +28,7 @@
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/favoriteRecipeRowLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -112,10 +112,10 @@
                     android:id="@+id/favorites_clock_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/yellow"
-                    android:layout_marginStart="24dp"
                     android:text="@{String.valueOf(favoriteEntity.result.readyInMinutes)}"
                     android:textAlignment="center"
+                    android:textColor="@color/yellow"
+                    app:layout_constraintEnd_toStartOf="@+id/favorites_leaf_textView"
                     app:layout_constraintStart_toEndOf="@+id/favorites_heart_textView"
                     app:layout_constraintTop_toBottomOf="@+id/favorites_clock_imageView" />
 
@@ -131,13 +131,12 @@
 
                 <TextView
                     android:id="@+id/favorites_leaf_textView"
+                    applyVeganColor="@{favoriteEntity.result.vegan}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    applyVeganColor="@{favoriteEntity.result.vegan}"
                     android:text="Vegan"
                     android:textAlignment="center"
-                    app:layout_constraintStart_toEndOf="@+id/favorites_clock_textView"
+                    app:layout_constraintEnd_toEndOf="@+id/favorites_description_textView"
                     app:layout_constraintTop_toBottomOf="@+id/favorites_leaf_imageView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
