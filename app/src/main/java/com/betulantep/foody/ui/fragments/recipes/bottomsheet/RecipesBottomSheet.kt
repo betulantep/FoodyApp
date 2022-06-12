@@ -5,12 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
-import com.betulantep.foody.R
 import com.betulantep.foody.databinding.RecipesBottomSheetBinding
 import com.betulantep.foody.util.Constants.Companion.DEFAULT_DIET_TYPE
 import com.betulantep.foody.util.Constants.Companion.DEFAULT_MEAL_TYPE
@@ -91,11 +90,5 @@ class RecipesBottomSheet() : BottomSheetDialogFragment() {
         )
         val action = RecipesBottomSheetDirections.actionRecipesBottomSheetToRecipesFragment(true)
         findNavController().navigate(action)
-        Log.d("Main Course", mealTypeChip)
-        Log.d("Main Course", mealTypeChipId.toString())
-        Log.d("Main Course", dietTypeChip)
-        Log.d("Main Course", dietTypeChipId.toString())
     }
-
-
 }

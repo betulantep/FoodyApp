@@ -25,21 +25,25 @@ class MainViewModel @Inject constructor(
 
     /** ROOM DATABASE */
     val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readRecipes().asLiveData()
-    val readFavoriteRecipes: LiveData<List<FavoriteEntity>> = repository.local.readFavoriteRecipes().asLiveData()
+    val readFavoriteRecipes: LiveData<List<FavoriteEntity>> =
+        repository.local.readFavoriteRecipes().asLiveData()
 
     private fun insertRecipes(recipesEntity: RecipesEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertRecipes(recipesEntity)
         }
+
     fun insertFavoriteRecipe(favoriteEntity: FavoriteEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertFavoriteRecipes(favoriteEntity)
         }
+
     fun deleteFavoriteRecipe(favoriteEntity: FavoriteEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.deleteFavoriteRecipe(favoriteEntity)
         }
-    private fun deleteAllFavoriteRecipes(favoriteEntity: FavoriteEntity) =
+
+    fun deleteAllFavoriteRecipes() =
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.deleteAllFavoriteRecipes()
         }
@@ -52,6 +56,7 @@ class MainViewModel @Inject constructor(
     fun getRecipes(queries: Map<String, String>) = viewModelScope.launch {
         getRecipesSafeCall(queries)
     }
+
     fun searchRecipes(searchQuery: Map<String, String>) = viewModelScope.launch {
         searchRecipesSafeCall(searchQuery)
     }
@@ -63,7 +68,7 @@ class MainViewModel @Inject constructor(
                 val response = repository.remote.getRecipes(queries)
                 recipesResponse.value = handleFoodRecipesResponse(response)
                 val foodRecipe = recipesResponse.value!!.data
-                if(foodRecipe != null){
+                if (foodRecipe != null) {
                     offlineCacheRecipes(foodRecipe)
                 }
             } catch (e: Exception) {
@@ -81,10 +86,12 @@ class MainViewModel @Inject constructor(
                 val response = repository.remote.searchRecipes(searchQuery)
                 searchedRecipesResponse.value = handleFoodRecipesResponse(response)
             } catch (e: Exception) {
-                searchedRecipesResponse.value = NetworkResult.Error((R.string.recipes_not_found).toString())
+                searchedRecipesResponse.value =
+                    NetworkResult.Error((R.string.recipes_not_found).toString())
             }
         } else {
-            searchedRecipesResponse.value = NetworkResult.Error((R.string.no_internet_connection).toString())
+            searchedRecipesResponse.value =
+                NetworkResult.Error((R.string.no_internet_connection).toString())
         }
     }
 

@@ -83,12 +83,15 @@ class DetailsActivity : AppCompatActivity() {
     private fun checkSavedRecipes(menuItem: MenuItem) {
         mainViewModel.readFavoriteRecipes.observe(this, Observer { listFavorite ->
             try {
+                savedFavoriteRecipe = false
                 for (savedRecipe in listFavorite) {
                     if (savedRecipe.result.id == args.result.id) {
                         changeMenuItemColor(menuItem, R.color.yellow)
                         savedFavoriteRecipeId = savedRecipe.id
                         savedFavoriteRecipe = true
+                        break
                     }
+                    changeMenuItemColor(menuItem, R.color.white)
                 }
             } catch (e: Exception) {
                 Log.d("DetailsActivity", e.message.toString())
@@ -120,4 +123,5 @@ class DetailsActivity : AppCompatActivity() {
         Snackbar.make(binding.detailsLayout, message, Snackbar.LENGTH_SHORT).setAction("Okay") {}
             .show()
     }
+
 }

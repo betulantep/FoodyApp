@@ -92,9 +92,7 @@ class RecipesFragment : Fragment(R.layout.fragment_recipes), SearchView.OnQueryT
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        if(query != null){
-            searchApiData(query)
-        }
+        query?.let { searchApiData(it) }
         searchView.clearFocus()
         return true
     }
