@@ -87,7 +87,7 @@ class MainViewModel @Inject constructor(
             }
         } else {
             recipesResponse.value =
-                NetworkResult.Error((R.string.no_internet_connection).toString())
+                NetworkResult.Error("No internet connection")
         }
     }
 
@@ -103,7 +103,7 @@ class MainViewModel @Inject constructor(
             }
         } else {
             searchedRecipesResponse.value =
-                NetworkResult.Error((R.string.no_internet_connection).toString())
+                NetworkResult.Error("No internet connection")
         }
     }
 
@@ -121,7 +121,7 @@ class MainViewModel @Inject constructor(
             }
         } else {
             foodJokeResponse.value =
-                NetworkResult.Error((R.string.no_internet_connection).toString())
+                NetworkResult.Error("No internet connection")
         }
     }
 
